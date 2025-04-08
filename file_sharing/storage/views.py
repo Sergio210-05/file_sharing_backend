@@ -1,4 +1,5 @@
 import datetime
+import uuid
 
 from django.http import FileResponse, JsonResponse
 from django.shortcuts import render
@@ -41,7 +42,7 @@ class FileViewSet(ModelViewSet):
         user_id = int(self.request.GET.get('memberId', 0))
         if user_id > 0:
             user = User.objects.get(pk=user_id)
-            query_set = File.objects.filter(owner=user)
+            query_set = File.objects.filter(owner=user).order_by('id')
             return Response(self.serializer_class(query_set, many=True).data,
                             status=status.HTTP_200_OK)
         return Response([], status=status.HTTP_200_OK)
@@ -56,12 +57,20 @@ class FileViewSet(ModelViewSet):
         return FileResponse(link, as_attachment=True, filename=title)
 
     def perform_create(self, serializer):
-        serializer.save(owner=self.request.user, original_title=self.request.data['original_title'])
+        print('perform_create')
+        user_id = self.request.data.get('member_id', self.request.user.id)
+        user = User.objects.get(pk=int(user_id))
+        print('user=', user)
+        print('user.id=', user.id)
+        serializer.save(owner=user,
+                        original_title=self.request.data['original_title'],
+                        storage_title=uuid.uuid4(),
+                        )
 
     def update(self, request, pk=None, *args, **kwargs):
         instance = File.objects.get(pk=pk)
         if request.user.is_authenticated:
             instance.original_title = request.data.get("original_title", instance.original_title)
             instance.comment = request.data.get("comment", instance.comment)
-            instance.save()
+            instance.save(update_fields=['original_title', 'comment'])
         return Response(status=status.HTTP_201_CREATED)
