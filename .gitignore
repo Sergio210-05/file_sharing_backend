@@ -11,6 +11,7 @@ dist/
 file_sharing/storage/hub/*
 *.egg-info/
 /steps.txt
+steps.txt
 
 # Файлы покрытия, кэши и прочие ненужные файлы
 .coverage
