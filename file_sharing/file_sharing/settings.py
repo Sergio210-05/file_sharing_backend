@@ -28,7 +28,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     'corsheaders',
-    # 'rest_framework.authtoken',
 
     'storage',
     'authentification',
@@ -150,7 +149,7 @@ SESSION_COOKIE_SAMESITE = 'Lax'
 CSRF_COOKIE_HTTPONLY = True
 SESSION_COOKIE_HTTPONLY = True
 
-CSRF_TRUSTED_ORIGINS = ['http://localhost:5173', ]
+CSRF_TRUSTED_ORIGINS = ['http://localhost:5173', '95.163.242.152', ]
 
 # PROD ONLY
 # CSRF_COOKIE_SECURE = True
@@ -162,6 +161,7 @@ CSRF_TRUSTED_ORIGINS = ['http://localhost:5173', ]
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
     'http://127.0.0.1:5173',
+    '95.163.242.152',
 ]
 
 CORS_EXPOSE_HEADERS = ['Content-Type', 'X-CSRFToken', 'Content-Disposition']
@@ -171,5 +171,52 @@ CORS_ALLOW_CREDENTIALS = True
 
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
-    # 'DEFAULT_AUTHENTICATION_CLASSES': ['rest_framework.authentication.TokenAuthentication'],
+}
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'main_format': {
+            'format': '%(asctime)-3s %(name)-3s %(levelname)-8s %(message)s',
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'main_format',
+        },
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'formatter': 'main_format',
+            'filename': 'logs.log',
+            'encoding': 'utf-8',
+        },
+        'errors': {
+            'level': 'ERROR',
+            'class': 'logging.FileHandler',
+            'formatter': 'main_format',
+            'filename': 'errors.log',
+            'encoding': 'utf-8',
+        }
+    },
+    'loggers': {
+        '': {
+            'level': 'INFO',
+            'handlers': ['console', 'file', 'errors'],
+            'propagate': False,
+        },
+        'django.request': {
+            'level': 'INFO',
+            'handlers': ['console', 'file', 'errors'],
+            'propagate': False,
+        },
+        'django.db.backends': {
+            'level': 'INFO',
+            'handlers': ['file', 'errors'],
+            'propagate': False,
+        }
+    },
 }

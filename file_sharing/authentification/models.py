@@ -14,8 +14,6 @@ class User(AbstractUser):
     REQUIRED_FIELDS = ["full_name", "email", "password", ]
 
     def save(self, *args, **kwargs):
-        password = self.password
-        print('password =', password)
         if not self.folder_path:
             user_folder = os.path.join(MEDIA_ROOT, self.username)
             os.makedirs(user_folder)

@@ -5,17 +5,19 @@ __pycache__/
 # Файлы конфигурации для venv
 venv/
 .venv/
-.env
 
 # Файлы дистрибутивов и артефакты упаковки
 dist/
 file_sharing/storage/hub/*
 *.egg-info/
+steps.txt
 
 # Файлы покрытия, кэши и прочие ненужные файлы
 .coverage
 *.py,cover
 .cache/
+file_sharing/errors.log
+file_sharing/logs.log
 
 # Файлы *.py,cover не несут никакого смысла
 *.py,cover
