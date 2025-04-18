@@ -47,6 +47,8 @@ INSTALLED_APPS = [
 
     'storage',
     'authentification',
+    'download',
+    'core',
 ]
 
 MIDDLEWARE = [
@@ -61,11 +63,11 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'file_sharing.urls'
-
+print('print:', BASE_DIR.parent.parent)
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR.parent.parent, 'frontend', 'file_sharing', 'dist')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -132,6 +134,12 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / STATIC_URL
+STATICFILES_DIRS = [os.path.join(BASE_DIR.parent.parent,
+                                 'frontend',
+                                 'file_sharing',
+                                 'dist',
+                                 'assets',
+                                 )]
 
 MEDIA_URL = 'storage/hub/'
 MEDIA_ROOT = BASE_DIR / MEDIA_URL
@@ -149,7 +157,7 @@ SESSION_COOKIE_SAMESITE = 'Lax'
 CSRF_COOKIE_HTTPONLY = True
 SESSION_COOKIE_HTTPONLY = True
 
-CSRF_TRUSTED_ORIGINS = ['http://localhost:5173', '95.163.242.152', ]
+CSRF_TRUSTED_ORIGINS = ['http://localhost:5173', 'http://95.163.242.152', ]
 
 # PROD ONLY
 # CSRF_COOKIE_SECURE = True
@@ -161,7 +169,7 @@ CSRF_TRUSTED_ORIGINS = ['http://localhost:5173', '95.163.242.152', ]
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
     'http://127.0.0.1:5173',
-    '95.163.242.152',
+    'http://95.163.242.152',
 ]
 
 CORS_EXPOSE_HEADERS = ['Content-Type', 'X-CSRFToken', 'Content-Disposition']
