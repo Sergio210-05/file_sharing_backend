@@ -14,7 +14,8 @@ https://github.com/Sergio210-05/file_sharing.git
 
 
 2. SSH  
-Для доступа на сервер необходим публичный ключ ssh из файла, который находтся в файле C:\Users\\[имя_пользователя]\\.ssh\id_rsa.pub
+Для доступа на сервер необходим публичный ключ ssh из файла, который находтся в файле  
+C:\Users\\[имя_пользователя]\\.ssh\id_rsa.pub  
 Если он не создавался ранее, то его можно сгенерировать командой:
 ```bash
 ssh-keygen
@@ -45,13 +46,13 @@ adduser [имя_пользователя]
 usermod [имя_пользователя] -aG sudo
 ```
 
+5. Переключение на нового пользователя  
 Переключитесь на вновь созданного пользователя:
 ```bash
 sudo -i -u [имя_пользователя]
 ```
 
-6. Установка программ и пакетов
-
+6. Установка программ и пакетов  
 Проверить установленные версии python и git можно командами:
 ```bash
 python3 --version
@@ -95,7 +96,7 @@ psql
 CREATE USER [имя_пользователя] WITH SUPERUSER;
 ```
 ```bash
-ALTER USER [имя_пользователя] WITH PASSWORD "[пароль]";
+ALTER USER [имя_пользователя] WITH PASSWORD '[пароль]';
 ```
 
 Создание БД с именем пользователя:
@@ -128,11 +129,11 @@ CREATE DATABASE diploma_storage;
 8. Клонирование проекта  
 Скопируйте клиентскую часть приложения в папку frontend корня командой:
 ```bash
-git clone https://github.com/Sergio210-05/file_sharing.git frontend
+git clone https://github.com/Sergio210-05/file_sharing.git frontend/file_sharing
 ```
 
 Если проект разворачивается на другом сервере (не 193.227.241.7), то нужно в файле index*.js заменить IP-адрес  
-Введите команду 
+Введите команду: 
 ```bash
 cd frontend/file_sharing/dist/assets/
 ```
@@ -177,20 +178,20 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 11. Создание миграций для базы данных  
-Выполните команду:
-```bash
-python manage.py migrate
-```
-12. Создание суперпользователя  
 Выполните команды:
 ```bash
 cd file_sharing
 ```
 ```bash
+python manage.py migrate
+```
+12. Создание суперпользователя  
+Выполните команду:
+```bash
 python manage.py shell
 ```
 ```bash
-from from authentification.models import User
+from authentification.models import User
 ```
 ```bash
 User.objects.create_superuser(username='admin1', full_name='admin', email='admin@mail.ru', password='Admin1@')
@@ -205,7 +206,7 @@ User.objects.create_superuser(username='admin1', full_name='admin', email='admin
 ```bash
 sudo nano /etc/systemd/system/gunicorn.service
 ```
-В открывшемся файле прописать:
+В открывшемся файле прописать (вместо [имя_пользователя] вписать имя пользователя системы из п.4):
 ```bash
 [Unit]
 Description=gunicorn service
@@ -235,7 +236,8 @@ sudo systemctl enable gunicorn
 ```bash
 sudo systemctl status gunicorn
 ```
-В отчёте зелёным должно быть подсвечено "Active(running)".  
+В отчёте зелёным должно быть подсвечено "active (running)".  
+Выход из консоли: сочетание Ctrl + C  
 
 
 14. Настройка nginx
@@ -244,11 +246,11 @@ sudo systemctl status gunicorn
 sudo nano /etc/nginx/sites-available/file_sharing
 ```
 
-В нём прописать:
+В нём прописать (заменить [имя_пользователя] и IP-адрес):
 ```bash
 server {
   listen 80;
-  server_name 193.227.241.7; (или IP Вашего сервера)
+  server_name 193.227.241.7;
 
   location /static/ {
     root /home/[имя_пользователя]/file_sharing_backend/file_sharing;
@@ -289,7 +291,7 @@ python manage.py collectstatic
 ```
 
 16. Проверка работы приложения
-Открыть браузер, ввести в поисковую строку IP-адрес сервера (в данном случае 95.163.221.194).  
+Открыть браузер, ввести в поисковую строку IP-адрес сервера (в данном случае 193.227.241.7).  
 Если появляется ошибка 502 Bad Gateway, то причина может быть в отсутствии прав.  
 Для проверки выполнить команду в терминале:
 ```bash
@@ -298,12 +300,14 @@ namei -nom /home/[имя_пользователя]/file_sharing_backend/file_sha
 
 Пример вывода с ошибкой в правах:  
 
-f: /home/[имя_пользователя]/file_sharing_backend/file_sharing/file_sharing/project.sock  
-  drwxr-xr-x root  root 	/  
-  drwxr-xr-x root  root 	home  
-  drwxr-x--- [имя_пользователя] [имя_пользователя]	[имя_пользователя] <--  Здесь нехватает прав для чтения файла  
-  drwxrwxr-x [имя_пользователя] [имя_пользователя]	file_sharing_backend  
-  srwxrwxrwx [имя_пользователя] www-data project.sock  
+f: /home/sergio/file_sharing_backend/file_sharing/file_sharing/project.sock  
+ drwxr-xr-x root   root     /  
+ drwxr-xr-x root   root     home  
+ drwxr-x--- sergio sergio   sergio  
+ drwxrwxr-x sergio sergio   file_sharing_backend  
+ drwxrwxr-x sergio sergio   file_sharing  
+ drwxrwxr-x sergio sergio   file_sharing  
+ srwxrwxrwx sergio www-data project.sock  
 
 Для исправления ошибки введите команду:  
 ```bash
@@ -312,9 +316,11 @@ sudo chmod 755 /home/[имя_пользователя]
 
 После исправления прав вывод namei будет отображаться следующим образом:  
 
-f: /home/[имя_пользователя]/file_sharing_backend/file_sharing/file_sharing/project.sock  
-  drwxr-xr-x root  root 	/  
-  drwxr-xr-x root  root 	home  
-  drwxr-xr-x [имя_пользователя] [имя_пользователя]	[имя_пользователя] <- Здесь нехватает прав для чтения файла  
-  drwxr-xr-x [имя_пользователя] [имя_пользователя]	file_sharing_backend  
-  srwxrwxrwx [имя_пользователя] www-data project.sock  
+f: /home/sergio/file_sharing_backend/file_sharing/file_sharing/project.sock  
+ drwxr-xr-x root   root     /  
+ drwxr-xr-x root   root     home  
+ drwxr-xr-x sergio sergio   sergio  
+ drwxrwxr-x sergio sergio   file_sharing_backend  
+ drwxrwxr-x sergio sergio   file_sharing  
+ drwxrwxr-x sergio sergio   file_sharing  
+ srwxrwxrwx sergio www-data project.sock  
