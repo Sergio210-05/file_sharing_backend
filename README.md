@@ -1,7 +1,7 @@
 # Дипломная работа для fullstack-разработчика - облачное хранилище
 
 ## Frontend
-Код клиентской части приложения находится по ссыдке:
+Код клиентской части приложения находится по ссылке:
 https://github.com/Sergio210-05/file_sharing.git
 
 Сборка клиентской части находится в папке dist
@@ -9,18 +9,18 @@ https://github.com/Sergio210-05/file_sharing.git
 ## Backend
 ### Инструкция по развертыванию проекта на сервере
 
-1. Терминал
+1. Терминал  
 Откройте терминал
 
 
-2. SSH
-Для доступа на сервер необходим публичный ключ ssh из файла, который находтся в файле C:\Users\[имя_пользователя]\.ssh\id_rsa.pub
+2. SSH  
+Для доступа на сервер необходим публичный ключ ssh из файла, который находтся в файле C:\Users\\[имя_пользователя]\\.ssh\id_rsa.pub
 Если он не создавался ранее, то его можно сгенерировать командой:
 ```bash
 ssh-keygen
 ```
 
-3. Подключение к серверу
+3. Подключение к серверу  
 
 Введите команду (после символа @ введите IP-адрес Вашего сервера):
 ```bash
@@ -110,7 +110,8 @@ CREATE DATABASE [имя_пользователя];
 exit
 ```
 
-Командная строка должна начинаться с [имя_пользователя]
+Командная строка должна начинаться с [имя_пользователя].  
+Пример: sergio@cvXXXXXXX:~$  
 Подключение к postgres через нового пользователя
 ```bash
 psql
@@ -124,13 +125,13 @@ CREATE DATABASE diploma_storage;
 \q
 ```
 
-8. Клонирование проекта
+8. Клонирование проекта  
 Скопируйте клиентскую часть приложения в папку frontend корня командой:
 ```bash
 git clone https://github.com/Sergio210-05/file_sharing.git frontend
 ```
 
-Если проект разворачивается на другом сервере (не 193.227.241.7), то нужно в файле index*.js заменить IP-адрес
+Если проект разворачивается на другом сервере (не 193.227.241.7), то нужно в файле index*.js заменить IP-адрес  
 Введите команду 
 ```bash
 cd frontend/file_sharing/dist/assets/
@@ -144,7 +145,7 @@ ls
 ```bash
 nano [имя_файла_js]
 ```
-Сочетанием клавиш Ctrl+W открыть поиск и найти строку со старым адресом 193.227.241.7, заменить его на нужный IP
+Сочетанием клавиш Ctrl+W открыть поиск и найти строку со старым адресом 193.227.241.7, заменить его на нужный IP.  
 Вернуться в корень
 ```bash
 cd ~
@@ -154,12 +155,12 @@ cd ~
 ```bash
 git clone https://github.com/Sergio210-05/file_sharing_backend.git file_sharing_backend
 ```
-9. Виртуальное окружение
+9. Виртуальное окружение  
 Перейдите в каталог file_sharing_backend:
 ```bash
 cd file_sharing_backend
 ```
-Создайте виртуальное окружение командой
+Создайте виртуальное окружение командой:
 ```bash
 python3 -m venv venv
 ```
@@ -167,20 +168,20 @@ python3 -m venv venv
 ```bash
 source venv/bin/activate
 ```
-В начале строки терминала должно появиться имя окружения в скобках. 
+В начале строки терминала должно появиться имя окружения в скобках.  
 Пример: (venv) sergio@cvXXXXXXX:~/file_sharing_backend$
 
-10. Установка зависимостей проекта из файла requirements.txt
+10. Установка зависимостей проекта из файла requirements.txt  
 Выполните команду:
 ```bash
 pip install -r requirements.txt
 ```
-11. Создание миграций для базы данных
+11. Создание миграций для базы данных  
 Выполните команду:
 ```bash
 python manage.py migrate
 ```
-12. Создание суперпользователя
+12. Создание суперпользователя  
 Выполните команды:
 ```bash
 cd file_sharing
@@ -189,18 +190,18 @@ cd file_sharing
 python manage.py shell
 ```
 ```bash
-from autentification import User
+from from authentification.models import User
 ```
 ```bash
 User.objects.create_superuser(username='admin1', full_name='admin', email='admin@mail.ru', password='Admin1@')
 ```
 
-Можно указать другие учётные данные для регистрации
-Выход:
-Сочетание клавиш Ctrl+C
+Можно указать другие учётные данные для регистрации.  
+Выход:  
+Сочетание клавиш Ctrl+D
 
-13. Настройка gunicorn
-Находясь в папке проекта (папка в которой находится manage.py) выполнить команду:
+13. Настройка gunicorn  
+Находясь в папке проекта (папка в которой находится manage.py) выполнить команду:  
 ```bash
 sudo nano /etc/systemd/system/gunicorn.service
 ```
@@ -220,7 +221,7 @@ ExecStart=/home/[имя_пользователя]/file_sharing_backend/venv/bin/
 [Install]
 WantedBy=multi-user.target
 ```
-Сохраняем файл (Ctrl+S), выходим из nano (Ctrl+X)
+Сохраняем файл (Ctrl+S), выходим из nano (Ctrl+X).  
 Запуск gunicorn:
 ```bash
 sudo systemctl start gunicorn
@@ -234,7 +235,7 @@ sudo systemctl enable gunicorn
 ```bash
 sudo systemctl status gunicorn
 ```
-В отчёте зелёным должно быть подсвечено "Active(running)"
+В отчёте зелёным должно быть подсвечено "Active(running)".  
 
 
 14. Настройка nginx
@@ -282,24 +283,20 @@ sudo ufw allow 'Nginx Full'
 ```
 
 15. Сбор "статики"
-
 Находясь в папке проекта (папка в которой находится manage.py) выполнить команду:
 ```bash
 python manage.py collectstatic
 ```
 
 16. Проверка работы приложения
-
-Открыть браузер, ввести в поисковую строку IP-адрес сервера (в данном случае 95.163.221.194)
-
-Если появляется ошибка 502 Bad Gateway, то причина может быть в отсутствии прав.
-
+Открыть браузер, ввести в поисковую строку IP-адрес сервера (в данном случае 95.163.221.194).  
+Если появляется ошибка 502 Bad Gateway, то причина может быть в отсутствии прав.  
 Для проверки выполнить команду в терминале:
 ```bash
 namei -nom /home/[имя_пользователя]/file_sharing_backend/file_sharing/file_sharing/project.sock
 ```
 
-Пример вывода с ошибкой в правах:
+Пример вывода с ошибкой в правах:  
 
 f: /home/[имя_пользователя]/file_sharing_backend/file_sharing/file_sharing/project.sock  
   drwxr-xr-x root  root 	/  
@@ -308,12 +305,12 @@ f: /home/[имя_пользователя]/file_sharing_backend/file_sharing/fil
   drwxrwxr-x [имя_пользователя] [имя_пользователя]	file_sharing_backend  
   srwxrwxrwx [имя_пользователя] www-data project.sock  
 
-Для исправления ошибки введите команду:
+Для исправления ошибки введите команду:  
 ```bash
 sudo chmod 755 /home/[имя_пользователя]
 ```
 
-После исправления прав вывод namei будет отображаться следующим образом:
+После исправления прав вывод namei будет отображаться следующим образом:  
 
 f: /home/[имя_пользователя]/file_sharing_backend/file_sharing/file_sharing/project.sock  
   drwxr-xr-x root  root 	/  
