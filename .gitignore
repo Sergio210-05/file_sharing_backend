@@ -18,6 +18,7 @@ steps.txt
 .cache/
 file_sharing/errors.log
 file_sharing/logs.log
+file_sharing/.envlocal
 
 
 # Контрольные точки в Jupyter notebook лучше оставить в стороне

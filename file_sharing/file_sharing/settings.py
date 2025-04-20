@@ -62,8 +62,10 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
 ]
 
+CORS_URLS_REGEX = r'^/(api)/.*$'
+
 ROOT_URLCONF = 'file_sharing.urls'
-print('print:', BASE_DIR.parent.parent)
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -157,7 +159,11 @@ SESSION_COOKIE_SAMESITE = 'Lax'
 CSRF_COOKIE_HTTPONLY = True
 SESSION_COOKIE_HTTPONLY = True
 
-CSRF_TRUSTED_ORIGINS = ['http://localhost:5173', 'http://95.163.242.152', ]
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:5173',
+    'http://95.163.242.152',
+    'http://193.227.241.7',
+    ]
 
 # PROD ONLY
 # CSRF_COOKIE_SECURE = True
@@ -170,7 +176,8 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
     'http://127.0.0.1:5173',
     'http://95.163.242.152',
-]
+    'http://193.227.241.7',
+    ]
 
 CORS_EXPOSE_HEADERS = ['Content-Type', 'X-CSRFToken', 'Content-Disposition']
 
