@@ -16,7 +16,7 @@ from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-load_env = load_dotenv(BASE_DIR / '.env')
+load_env = load_dotenv(BASE_DIR / '.envlocal')
 
 
 # Quick-start development settings - unsuitable for production
@@ -26,7 +26,8 @@ load_env = load_dotenv(BASE_DIR / '.env')
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG')
+# DEBUG = os.getenv('DEBUG')
+DEBUG = os.getenv('DEBUG', default='True') == 'True'
 
 ALLOWED_HOSTS = ['*']
 
@@ -161,7 +162,7 @@ SESSION_COOKIE_HTTPONLY = True
 
 CSRF_TRUSTED_ORIGINS = [
     'http://localhost:5173',
-    'http://95.163.242.152',
+    'http://95.163.221.194',
     'http://193.227.241.7',
     ]
 
@@ -175,7 +176,7 @@ CSRF_TRUSTED_ORIGINS = [
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
     'http://127.0.0.1:5173',
-    'http://95.163.242.152',
+    'http://95.163.221.194',
     'http://193.227.241.7',
     ]
 
@@ -183,6 +184,8 @@ CORS_EXPOSE_HEADERS = ['Content-Type', 'X-CSRFToken', 'Content-Disposition']
 
 # Разрешаем отправлять cookie при межсайтовых запросах на разрешённые домены:
 CORS_ALLOW_CREDENTIALS = True
+
+SECURE_CROSS_ORIGIN_OPENER_POLICY = None
 
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],

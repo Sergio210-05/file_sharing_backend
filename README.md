@@ -251,6 +251,7 @@ sudo nano /etc/nginx/sites-available/file_sharing
 server {
   listen 80;
   server_name 193.227.241.7;
+  client_max_body_size 40M;
 
   location /static/ {
     root /home/[имя_пользователя]/file_sharing_backend/file_sharing;
